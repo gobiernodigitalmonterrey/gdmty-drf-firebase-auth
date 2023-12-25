@@ -1,0 +1,17 @@
+steps:
+- name: 'python'
+  entrypoint: 'python'
+  args: ['-m', 'pip', 'install', '--upgrade', 'pip', "--user"]
+- name: 'python'
+  entrypoint: 'python'
+  args: ["-m", "pip", "install", "build", "pytest", "--user"]
+- name: 'python'
+  entrypoint: 'python'
+  args: ["-m", "pip", "install", "-r", "requirements_cloudbuild.txt", "--user"]
+- name: 'python'
+  entrypoint: 'python'
+  args: ["-m", "build"]
+artifacts:
+  pythonPackages:
+    - repository: "https://us-central1-python.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/"
+      paths: ["dist/*"]
