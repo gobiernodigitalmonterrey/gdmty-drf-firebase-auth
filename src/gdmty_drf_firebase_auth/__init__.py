@@ -9,7 +9,7 @@ custom user models. And is fully integrated with gdmty-id.
 
 """
 __title__ = 'gdmty_drf_firebase_auth'
-__version__ = '2023.12-dev3'
+__version__ = '2023.12-dev4'
 __description__ = (
     'Custom Django Rest Framework authentication backend for '
     'parsing Firebase uid tokens and storing as local users.'
