@@ -61,7 +61,7 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
             except Exception as e:
                 log.error(f'_decode_token - Exception: {e}')
                 # Continuar con el siguiente intento de verificación
-        raise Exception("AccessToken is not valid")
+        raise Exception("Invalida AccessToken")
 
     def _authenticate_token(self, decoded_token: Dict) -> firebase_auth.UserRecord:
         """ Returns firebase user if token is authenticated """
