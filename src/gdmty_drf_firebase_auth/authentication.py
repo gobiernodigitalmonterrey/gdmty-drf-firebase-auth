@@ -23,7 +23,7 @@ User = get_user_model()
 
 firebase_instances = {}
 
-for index, project in enumerate(settings.FIREBASE_AUTH_PROJECTS):
+for index, project in enumerate(settings.MTY_FIREBASE_AUTH_PROJECTS):
     if index == 0:
         default_credentials = firebase_admin.credentials.Certificate(project['SERVICE_ACCOUNT_KEY'])
         firebase_admin.initialize_app(credential=default_credentials)
@@ -52,7 +52,7 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
         """
         Attempt to verify JWT from Authorization header with Firebase and return the decoded token
         """
-        for account in settings.MTY_FIREBASE_AUTH_ACCOUNTS:
+        for account in settings.MTY_FIREBASE_AUTH_PROJECTS:
             try:
                 self.current_firebase_user_app = firebase_instances[account['PROJECT_ID']]
                 decoded_token = firebase_auth.verify_id_token(token, app=self.current_firebase_user_app, check_revoked=api_settings.FIREBASE_CHECK_JWT_REVOKED)
