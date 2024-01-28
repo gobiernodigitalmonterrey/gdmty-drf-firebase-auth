@@ -6,8 +6,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gdmty-drf-firebase-auth"
-version = "2023.12-dev5"
-description = "Custom Django Rest Framework authentication backend for parsing Firebase uid tokens or email/password, and storing as local users."
+version = "24.1.0"
+description = "Custom Django Rest Framework authentication backend than can be used with many firebase projects at same time, and storing as local users."
 readme = "README.md"
 authors = [{ name="Gobierno de Monterrey", email="cesar.benjamin@monterrey.gob.mx" }]
 license = { file = "LICENSE" }
@@ -37,8 +37,8 @@ dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
 "Bug Tracker" = "https://github.com/SIGAMty/gdmty-drf-firebase-auth/issues"
 
 [tool.bumpver]
-current_version = "2023.12-dev5"
-version_pattern = "YYYY.MM[-TAGNUM]"
+current_version = "24.1.0"
+version_pattern = "MAJOR.MINOR.PATCH[-PYTAGNUM]"
 commit_message = "bump version {old_version} -> {new_version}"
 tag_message = "{new_version}"
 tag_scope = "default"
