@@ -1,15 +1,18 @@
 # gdmty-drf-firebase-auth
-Firebase backend to receive a user idToken and authenticate via Django REST Framework 'authentication.BaseAuthentication'. Optionally, a new local user can be created in the process.
+
+Firebase backend to receive a user idToken and authenticate via Django REST Framework 
+'authentication.BaseAuthentication'. Optionally, a new local user can be created in the process.
 
 ## Requirements
 
 * Python 3
 * Django 4
 * Django Rest Framework 3 
+* Firebase Admin SDK
 
 ## Installation
 
-```
+```bash
 $ pip install gdmty-drf-firebase-auth
 ```
 
@@ -97,16 +100,16 @@ All you need to do now is have your client code handle the Firebase popup/redire
 Bearer <token>
 ```
 
-Voila!
+Now, all is ready!
 
 ## Contributing
 
 * Please raise an issue/feature and name your branch 'feature-n' or 'issue-n', where 'n' is the issue number.
 * If you test this code with a Python version not listed above and all is well, please fork and update the README to include the Python version you used :)
-* I almost always setup Django with a custom user class inheriting from AbstractUser, where I switch the USERNAME_FIELD to be 'email'. This backend is set up to assign a username still anyway, but if there are any issues, please raise them and/or make a pull request to help the community!
 
 ## Additional Notes
 
 * This project is a fork of drf-firebase-auth, which seems no longer maintained. The original project only supports one service account, the original code has been modified to allow more than one service account.
 * The initial proposal of this project had the option of use Firebase Auth with email and password, but this option was removed to keep the project clean and simple, and focused on the use of Firebase Auth with idToken for Django REST Framework.
 * If you are looking for a project that supports Firebase Auth with email and password, you can use our side project: `gdmty-django-firebase-auth-email-password` at https://github.com/SIGAMty/gdmty-django-firebase-auth-email-password
+* I almost always setup Django with a custom user class inheriting from AbstractUser, where I switch the USERNAME_FIELD to be 'email'. This backend is set up to assign a username still anyway, but if there are any issues, please raise them and/or make a pull request to help the community!
