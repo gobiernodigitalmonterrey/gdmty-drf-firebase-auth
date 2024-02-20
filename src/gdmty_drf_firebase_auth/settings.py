@@ -20,14 +20,11 @@ from rest_framework.settings import APISettings
 from .utils import map_firebase_uid_to_username
 import logging
 from . import __title__
+import json
 
 log = logging.getLogger(__title__)
 
 FIREBASE_AUTH_CONFIG = getattr(settings, 'FIREBASE_AUTH_CONFIG', None)
-FIREBASE_AUTH_PROJECTS = getattr(settings, 'FIREBASE_AUTH_PROJECTS', None)
-
-if FIREBASE_AUTH_PROJECTS is not None: 
-    FIREBASE_AUTH_CONFIG['FIREBASE_AUTH_PROJECTS'] = FIREBASE_AUTH_PROJECTS
 
 DEFAULT_FIREBASE_AUTH_CONFIG = {
     # allow creation of new local user in db
@@ -43,7 +40,7 @@ DEFAULT_FIREBASE_AUTH_CONFIG = {
     # function should accept firebase_admin.auth.UserRecord as argument and return str
     'FIREBASE_USERNAME_MAPPING_FUNC': map_firebase_uid_to_username,
     # Project ID and Service Account Keyfile JSON 
-    'FIREBASE_AUTH_PROJECTS': os.getenv('FIREBASE_AUTH_PROJECTS', None),
+    'FIREBASE_AUTH_PROJECTS':  json.loads(os.getenv('FIREBASE_AUTH_PROJECTS')) if json.loads(os.getenv('FIREBASE_AUTH_PROJECTS')) else getattr(settings, 'FIREBASE_AUTH_PROJECTS', None),
 }
 
 # List of settings that may be in string import notation. Used only for compatibility.
