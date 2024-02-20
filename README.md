@@ -3,7 +3,7 @@
 Firebase backend to receive a user idToken and authenticate via Django REST Framework 
 'authentication.BaseAuthentication'. Optionally, a new local user can be created in the process. 
 This project is basen on the original work of 
-[https://github.com/garyburgmann/drf-firebase-auth]drf-firebase-auth but with many edits to allow 
+(https://github.com/garyburgmann/drf-firebase-auth)drf-firebase-auth but with many edits to allow 
 get a few features that don't have the original work, but was not able to make a pull reques or 
 contribs because the use cases can be so specific and  will make breaking changes to original code
 
