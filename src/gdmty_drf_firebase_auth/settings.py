@@ -39,7 +39,7 @@ DEFAULT_FIREBASE_AUTH_CONFIG = {
     'FIREBASE_AUTH_EMAIL_VERIFICATION': os.getenv('FIREBASE_AUTH_EMAIL_VERIFICATION', False),
     # function should accept firebase_admin.auth.UserRecord as argument and return str
     'FIREBASE_USERNAME_MAPPING_FUNC': map_firebase_uid_to_username,
-    # Project ID and Service Account Keyfile JSON 
+    # Project ID and Service Account Keyfile JSON: Loads json from env var or gets object from settings
     'FIREBASE_AUTH_PROJECTS':  json.loads(os.getenv('FIREBASE_AUTH_PROJECTS')) if json.loads(os.getenv('FIREBASE_AUTH_PROJECTS')) else getattr(settings, 'FIREBASE_AUTH_PROJECTS', None),
 }
 
