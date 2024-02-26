@@ -21,24 +21,24 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from rest_framework import authentication, exceptions
-from django.conf import settings
 from .settings import api_settings
 from .models import FirebaseUser, FirebaseUserProvider
 from .utils import get_firebase_user_email
 from . import __title__
+import json
 
 log = logging.getLogger(__title__)
 User = get_user_model()
 
 firebase_instances = {}
 
-for index, project in enumerate(settings.FIREBASE_AUTH_PROJECTS):
+for index, project in enumerate(api_settings.FIREBASE_AUTH_PROJECTS):
+    print(index, project)
     if index == 0:
         default_credentials = firebase_admin.credentials.Certificate(project['SERVICE_ACCOUNT_KEY'])
         firebase_admin.initialize_app(credential=default_credentials)
     credentials = firebase_admin.credentials.Certificate(project['SERVICE_ACCOUNT_KEY'])
     firebase_instances[project['PROJECT_ID']] = firebase_admin.initialize_app(credentials, {'projectId': project['PROJECT_ID']}, name=project['PROJECT_ID'])
-
 
 class FirebaseAuthentication(authentication.TokenAuthentication):
     """
@@ -61,7 +61,7 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
         """
         Attempt to verify JWT from Authorization header with Firebase and return the decoded token
         """
-        for account in settings.FIREBASE_AUTH_PROJECTS:
+        for account in api_settings.FIREBASE_AUTH_PROJECTS:
             try:
                 self.current_firebase_user_app = firebase_instances[account['PROJECT_ID']]
                 decoded_token = firebase_auth.verify_id_token(token, app=self.current_firebase_user_app, check_revoked=api_settings.FIREBASE_CHECK_JWT_REVOKED)

@@ -74,10 +74,10 @@ FIREBASE_AUTH_SA_KEYFILES = {
     'project-2': os.path.join(BASE_DIR, 'sa', 'project-2-keyfile.json')
 }
 
-FIREBASE_AUTH_PROJECTS = {
+FIREBASE_AUTH_PROJECTS = [
     {'PROJECT_ID': 'project-1', 'SERVICE_ACCOUNT_KEY': FIREBASE_AUTH_SA_KEYFILES['project-1']},
     {'PROJECT_ID': 'project-2', 'SERVICE_ACCOUNT_KEY': FIREBASE_AUTH_SA_KEYFILES['project-2']},
-}
+]
 ```
 
 Ahora que se ha configurado la aplicación, se deben ejecutar las migraciones para que los datos de Firebase puedan ser 
