@@ -22,6 +22,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from rest_framework import authentication, exceptions
 from .settings import api_settings
+from django.conf import settings
 from .models import FirebaseUser, FirebaseUserProvider
 from .utils import get_firebase_user_email
 from . import __title__
@@ -55,7 +56,8 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
             self._create_local_firebase_user(local_user, firebase_user)
             return local_user, decoded_token
         except Exception as e:
-            raise exceptions.AuthenticationFailed(e)
+            if settings.DEBUG:
+                raise exceptions.AuthenticationFailed(e)
 
     def _decode_token(self, token: str) -> Dict:
         """
@@ -70,7 +72,9 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
             except Exception as e:
                 log.error(f'_decode_token - Exception: {e}')
                 # Continuar con el siguiente intento de verificación
-        raise Exception("Invalida AccessToken")
+        if settings.DEBUG:
+            log.error(f'Invalid AccessToken')
+            raise Exception("Invalid AccessToken")
 
     def _authenticate_token(self, decoded_token: Dict) -> firebase_auth.UserRecord:
         """ Returns firebase user if token is authenticated """
@@ -81,11 +85,13 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
             log.info(f'_authenticate_token - firebase_user: {firebase_user}')
             if api_settings.FIREBASE_AUTH_EMAIL_VERIFICATION:
                 if not firebase_user.email_verified:
-                    raise Exception('Email address of this user has not been verified.')
+                    if settings.DEBUG:
+                        raise Exception('Email address of this user has not been verified.')
             return firebase_user
         except Exception as e:
             log.error(f'_authenticate_token - Exception: {e}')
-            raise Exception(e)
+            if settings.DEBUG:
+                raise Exception(e)
 
     @staticmethod
     def _get_or_create_local_user(firebase_user: firebase_auth.UserRecord) -> User:
@@ -100,9 +106,8 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
                 f'_get_or_create_local_user - user.is_active: {user.is_active}'
             )
             if not user.is_active:
-                raise Exception(
-                    'User account is not currently active.'
-                )
+                if settings.DEBUG:
+                    raise Exception('User account is not currently active.')
             user.last_login = timezone.now()
             user.save()
         except User.DoesNotExist:
@@ -110,12 +115,10 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
                 f'_get_or_create_local_user - User.DoesNotExist: {email}'
             )
             if not api_settings.FIREBASE_CREATE_LOCAL_USER:
-                raise Exception('User is not registered to the application.')
-            username = \
-                api_settings.FIREBASE_USERNAME_MAPPING_FUNC(firebase_user)
-            log.info(
-                f'_get_or_create_local_user - username: {username}'
-            )
+                if settings.DEBUG:
+                    raise Exception('User is not registered to the application.')
+            username = api_settings.FIREBASE_USERNAME_MAPPING_FUNC(firebase_user)
+            log.info(f'_get_or_create_local_user - username: {username}')
             try:
                 user = User.objects.create_user(
                     username=username,
@@ -132,7 +135,8 @@ class FirebaseAuthentication(authentication.TokenAuthentication):
                         user.last_name = display_name[1]
                 user.save()
             except Exception as e:
-                raise Exception(e)
+                if settings.DEBUG:
+                    raise Exception(e)
         return user
 
     @staticmethod
