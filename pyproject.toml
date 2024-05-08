@@ -18,11 +18,10 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Framework :: Django",
-    "Framework :: Django :: 4.2",
 ]
 keywords = ["django", "firebase", "jwt", "authentication"]
 dependencies = [
-    "django >= 4.2, < 5.0",
+    "django >= 4.2, < 6.0",
     "firebase-admin",
     "djangorestframework",
     "tomli; python_version < '3.11'",

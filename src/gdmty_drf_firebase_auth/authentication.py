@@ -36,10 +36,14 @@ firebase_instances = {}
 for index, project in enumerate(api_settings.FIREBASE_AUTH_PROJECTS):
     print(index, project)
     if index == 0:
-        default_credentials = firebase_admin.credentials.Certificate(project['SERVICE_ACCOUNT_KEY'])
+        default_credentials = firebase_admin.credentials.Certificate(project['SERVICE_ACCOUNT'])
         firebase_admin.initialize_app(credential=default_credentials)
-    credentials = firebase_admin.credentials.Certificate(project['SERVICE_ACCOUNT_KEY'])
-    firebase_instances[project['PROJECT_ID']] = firebase_admin.initialize_app(credentials, {'projectId': project['PROJECT_ID']}, name=project['PROJECT_ID'])
+    credentials = firebase_admin.credentials.Certificate(project['SERVICE_ACCOUNT'])
+    firebase_instances[project['PROJECT_ID']] = firebase_admin.initialize_app(credentials,
+                                                                              {'projectId': project['PROJECT_ID']},
+                                                                              name=project['PROJECT_ID']
+                                                                              )
+
 
 class FirebaseAuthentication(authentication.TokenAuthentication):
     """
